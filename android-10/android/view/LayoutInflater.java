@@ -340,7 +340,8 @@ public abstract class LayoutInflater {
      *        <em>attachToRoot</em> is true), or else simply an object that
      *        provides a set of LayoutParams values for root of the returned
      *        hierarchy (if <em>attachToRoot</em> is false.)
-     * @param attachToRoot Whether the inflated hierarchy should be attached to
+     * @param attachToRoot 该参数确定是否从新设置该View的LayoutParams对象<br/>
+     *        attachToRoot Whether the inflated hierarchy should be attached to
      *        the root parameter? If false, root is only used to create the
      *        correct subclass of LayoutParams for the root view in the XML.
      * @return The root View of the inflated hierarchy. If root was supplied and
@@ -619,6 +620,7 @@ public abstract class LayoutInflater {
     /**
      * Recursive method used to descend down the xml hierarchy and instantiate
      * views, instantiate their children, and then call onFinishInflate().
+     * @param attrs 在inflate()内部调用Xml.asAttributeSet(parser);解析所有属性
      */
     private void rInflate(XmlPullParser parser, View parent, final AttributeSet attrs)
             throws XmlPullParserException, IOException {
@@ -659,7 +661,7 @@ public abstract class LayoutInflater {
                 viewGroup.addView(view, params);
             }
         }
-        //完成了解析过程，通知....  
+        //完成了解析过程，通知....  空实现
         parent.onFinishInflate();
     }
 

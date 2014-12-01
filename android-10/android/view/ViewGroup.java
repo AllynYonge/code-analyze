@@ -266,7 +266,7 @@ public abstract class ViewGroup extends View implements ViewParent, ViewManager 
     // Index of the child's top position in the mLocation array
     private static final int CHILD_TOP_INDEX = 1;
 
-    // Child views of this ViewGroup
+    /**这个ViewGroup中的所有子控件*/
     private View[] mChildren;
     // Number of valid children in the mChildren array, the rest should be null or not
     // considered as children
@@ -1891,7 +1891,9 @@ public abstract class ViewGroup extends View implements ViewParent, ViewManager 
     public void addView(View child, int index) {
         LayoutParams params = child.getLayoutParams();
         if (params == null) {
+            //返回默认地LayoutParams类，作为该View的属性值  
             params = generateDefaultLayoutParams();
+            //如果不能获取到LayoutParams对象，则抛出异常。  
             if (params == null) {
                 throw new IllegalArgumentException("generateDefaultLayoutParams() cannot return null");
             }
@@ -1936,7 +1938,8 @@ public abstract class ViewGroup extends View implements ViewParent, ViewManager 
         if (DBG) {
             System.out.println(this + " addView");
         }
-
+        // 当我们设置新的LayoutParams对象时addViewInner()方法内部将会调用child.requestLayout()，
+        //因此我们要在子控件调用requestLayout()方法之前，首先调用ViewGroup自身的requestLayout()方法
         // addViewInner() will call child.requestLayout() when setting the new LayoutParams
         // therefore, we call requestLayout() on ourselves before, so that the child's request
         // will be blocked at our level
@@ -2060,15 +2063,16 @@ public abstract class ViewGroup extends View implements ViewParent, ViewManager 
             //为View的mLayoutParams属性赋值  
             child.mLayoutParams = params;
         } else {
-            //为View的mLayoutParams属性赋值，但会调用requestLayout()请求重新布局 
+            //为View的mLayoutParams属性赋值，内部会调用requestLayout()请求重新布局 
             child.setLayoutParams(params);
         }
 
         if (index < 0) {
+            //该被添加的子View的索引值
             index = mChildrenCount;
             
         }
-
+        
         addInArray(child, index);
 
         // tell our children
@@ -2079,6 +2083,7 @@ public abstract class ViewGroup extends View implements ViewParent, ViewManager 
         }
 
         if (child.hasFocus()) {
+            //给成员变量赋值：mFocused = child;
             requestChildFocus(child, child.findFocus());
         }
 
@@ -2102,6 +2107,11 @@ public abstract class ViewGroup extends View implements ViewParent, ViewManager 
         }
     }
 
+    /**
+     * 把该子View添加到mChildren这个成员变量中
+     * @param child
+     * @param index
+     */
     private void addInArray(View child, int index) {
         View[] children = mChildren;
         final int count = mChildrenCount;
@@ -3008,15 +3018,12 @@ public abstract class ViewGroup extends View implements ViewParent, ViewManager 
     }
 
     /**
-     * Returns a set of default layout parameters. These parameters are requested
-     * when the View passed to {@link #addView(View)} has no layout parameters
-     * already set. If null is returned, an exception is thrown from addView.
+     * 默认LayoutParams的width 为 WRAP_CONTENT大小 ， height 为WRAP_CONTENT   
+     * ViewGroup的子类可以重写该方法，达到其特定要求。稍后会以LinearLayout类为例说明。
      *
      * @return a set of default layout parameters or null
      */
     protected LayoutParams generateDefaultLayoutParams() {
-        //默认的width 为 WRAP_CONTENT大小 ， height 为WRAP_CONTENT   
-        //ViewGroup的子类可以重写该方法，达到其特定要求。稍后会以LinearLayout类为例说明。
         return new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
     }
 

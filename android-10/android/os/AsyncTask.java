@@ -16,6 +16,9 @@
 
 package android.os;
 
+import android.view.ViewGroup;
+
+import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.BlockingQueue;
@@ -126,7 +129,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public abstract class AsyncTask<Params, Progress, Result> {
     private static final String LOG_TAG = "AsyncTask";
-    
     //5个核心工作线程
     private static final int CORE_POOL_SIZE = 5;
     //最多拥有的线程为128个

@@ -1376,8 +1376,9 @@ public class LinearLayout extends ViewGroup {
     }
     
     /**
-     * Per-child layout information associated with ViewLinearLayout.
-     * 
+     * Per-child layout information associated with ViewLinearLayout.<br/>
+     * LinearLayout.LayoutParams类继承至ViewGroup.MarginLayoutParams类，添加了对android:layout_weight以及
+     * android:layout_gravity这两个属性的获取和保存
      * @attr ref android.R.styleable#LinearLayout_Layout_layout_weight
      * @attr ref android.R.styleable#LinearLayout_Layout_layout_gravity
      */

@@ -1621,6 +1621,8 @@ public class View implements Drawable.Callback, KeyEvent.Callback, Accessibility
     int mWindowAttachCount;
 
     /**
+     * <p>该View拥有的 LayoutParams属性，父试图添加该View时，会为其赋值，特别注意，其类型为ViewGroup.LayoutParams<br/>
+     * 若父容器是LinearLayout的话，那么该成员变量赋值为LinearLayout.LayoutParam的实例</p>
      * The layout parameters associated with this view and used by the parent
      * {@link android.view.ViewGroup} to determine how this view should be
      * laid out.
